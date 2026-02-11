@@ -163,16 +163,23 @@ if DEBUG:
     CORS_ALLOW_ALL_ORIGINS = True
 else:
     CORS_ALLOW_ALL_ORIGINS = False
+
     CORS_ALLOWED_ORIGINS = [
-        f"http://{host}" for host in ALLOWED_HOSTS if host not in ('localhost', '127.0.0.1')
-    ] + [
-        f"https://{host}" for host in ALLOWED_HOSTS if host not in ('localhost', '127.0.0.1')
-    ] + [
+        "https://alv-website.onrender.com",   # <- tu API en Render
+        "https://alv-website.netlify.app",    # <- prod netlify
+        "https://alv.digital",                # <- dominio custom
+        "https://www.alv.digital",            # <- por si acaso
         "http://localhost:3000",
         "http://127.0.0.1:3000",
-        "https://alv.digital",
     ]
+
+    # Previews de Netlify: https://algo--alv-website.netlify.app
+    CORS_ALLOWED_ORIGIN_REGEXES = [
+        r"^https:\/\/.*--alv-website\.netlify\.app$",
+    ]
+
     CORS_ALLOW_CREDENTIALS = True
+    
 
 # Security settings for production
 if not DEBUG:
@@ -187,7 +194,11 @@ if not DEBUG:
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
     # Orígenes confiables para CSRF (Obligatorio para que funcionen los POST en HTTPS)
-    CSRF_TRUSTED_ORIGINS = ["https://alv.digital"]
+    CSRF_TRUSTED_ORIGINS = [
+        "https://alv.digital",
+        "https://www.alv.digital",
+        "https://alv-website.netlify.app",
+    ]
 
     # Security headers
     SECURE_CONTENT_TYPE_NOSNIFF = True
