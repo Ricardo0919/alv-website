@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 import os
 import secrets
 from pathlib import Path
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 # BASE_DIR is now the project root (parent of src/)
@@ -83,33 +84,23 @@ TEMPLATES = [
 WSGI_APPLICATION = 'src.backend.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+# Render uses DATABASE_URL (Postgres). Local falls back to SQLite.
+DATABASE_URL = os.environ.get("DATABASE_URL")
 
-# AWS RDS PostgreSQL - Required for production
-# AWS RDS PostgreSQL - Required for production
-# Environment variables must be set: RDS_HOSTNAME, RDS_PASSWORD
-if os.environ.get('RDS_HOSTNAME'):
+if DATABASE_URL:
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': os.environ.get('RDS_DB_NAME', 'algolindo'),
-            'USER': os.environ.get('RDS_USERNAME', 'postgres'),
-            'PASSWORD': os.environ.get('RDS_PASSWORD'),
-            'HOST': os.environ.get('RDS_HOSTNAME'),
-            'PORT': os.environ.get('RDS_PORT', '5432'),
-            'OPTIONS': {
-                'connect_timeout': 10,
-                'sslmode': 'require',
-            }
-        }
+        "default": dj_database_url.parse(
+            DATABASE_URL,
+            conn_max_age=600,
+            ssl_require=True,
+        )
     }
 else:
-    # Fallback to SQLite for local development
-    print("Warning: RDS_HOSTNAME not set, using local SQLite database.")
+    print("Warning: DATABASE_URL not set, using local SQLite database.")
     DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": BASE_DIR / "db.sqlite3",
         }
     }
 
