@@ -48,8 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'corsheaders',
-    'migajas',
-    #'src.migajas',
+    'src.migajas',
 ]
 
 MIDDLEWARE = [
@@ -63,8 +62,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-#ROOT_URLCONF = 'src.backend.urls'
-ROOT_URLCONF = 'backend.urls'
+ROOT_URLCONF = 'src.backend.urls'
 
 TEMPLATES = [
     {
@@ -82,8 +80,7 @@ TEMPLATES = [
     },
 ]
 
-#WSGI_APPLICATION = 'src.backend.wsgi.application'
-WSGI_APPLICATION = 'backend.wsgi.application'
+WSGI_APPLICATION = 'src.backend.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
