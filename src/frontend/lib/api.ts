@@ -1,5 +1,8 @@
 // Use relative URL so it works through Nginx proxy
-const API_URL = '/api';
+const BASE =
+  process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "http://127.0.0.1:8000";
+
+const API_URL = `${BASE}/api`;
 
 export interface Interaction {
     id?: number;
@@ -20,6 +23,7 @@ export const getStats = async (): Promise<Stats> => {
     if (!res.ok) throw new Error('Failed to fetch stats');
     return res.json();
 };
+
 
 export const logInteraction = async (interaction: Interaction): Promise<Interaction> => {
     const res = await fetch(`${API_URL}/interactions/`, { // Added trailing slash
