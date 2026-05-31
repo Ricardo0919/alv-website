@@ -9,6 +9,9 @@ class InteractionViewSet(viewsets.ModelViewSet):
     serializer_class = InteractionSerializer
 
     def perform_create(self, serializer):
+        validated_data = serializer.validated_data.copy()
+        batch_quantity = validated_data.pop('batch_quantity', 1)
+
         # 1. Get current actual total from DB
         current_sum = Interaction.objects.aggregate(Sum('crumbs'))['crumbs__sum'] or 0
         
@@ -18,8 +21,8 @@ class InteractionViewSet(viewsets.ModelViewSet):
         
         # 3. Calculate Intended Delta based on standard rules
         #    We create a temporary instance to use the model's logic
-        temp_instance = Interaction(**serializer.validated_data)
-        intended_delta = temp_instance.calculate_crumbs()
+        temp_instance = Interaction(**validated_data)
+        intended_delta = temp_instance.calculate_crumbs() * batch_quantity
         
         # 4. Target End: Where the user expects to end up
         target_end = effective_start + intended_delta

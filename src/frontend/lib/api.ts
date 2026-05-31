@@ -8,7 +8,8 @@ export interface Interaction {
     id?: number;
     type: 'CONVERSATION' | 'CALL' | 'REMOVAL';
     count_or_duration: number;
-    crumbs: number;
+    crumbs?: number;
+    batch_quantity?: number;
     created_at?: string;
 }
 

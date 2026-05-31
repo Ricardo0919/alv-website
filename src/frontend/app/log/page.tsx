@@ -95,10 +95,18 @@ export default function SmartLoggerPage() {
         setLoading(true);
         try {
             const promises = [];
-            for (let i = 0; i < counts.CHAT; i++) promises.push(logInteraction({ type: 'CONVERSATION', count_or_duration: 5, crumbs: 0 }));
-            for (let i = 0; i < counts.CALL; i++) promises.push(logInteraction({ type: 'CALL', count_or_duration: 1, crumbs: 0 }));
-            for (let i = 0; i < counts.DEEP; i++) promises.push(logInteraction({ type: 'CALL', count_or_duration: 10, crumbs: 0 }));
-            if (counts.PENALTY > 0) promises.push(logInteraction({ type: 'REMOVAL', count_or_duration: counts.PENALTY, crumbs: 0 }));
+            if (counts.CHAT > 0) {
+                promises.push(logInteraction({ type: 'CONVERSATION', count_or_duration: 5, batch_quantity: counts.CHAT }));
+            }
+            if (counts.CALL > 0) {
+                promises.push(logInteraction({ type: 'CALL', count_or_duration: 1, batch_quantity: counts.CALL }));
+            }
+            if (counts.DEEP > 0) {
+                promises.push(logInteraction({ type: 'CALL', count_or_duration: 10, batch_quantity: counts.DEEP }));
+            }
+            if (counts.PENALTY > 0) {
+                promises.push(logInteraction({ type: 'REMOVAL', count_or_duration: counts.PENALTY }));
+            }
 
             await Promise.all(promises);
             router.push('/');
