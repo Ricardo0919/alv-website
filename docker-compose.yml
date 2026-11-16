@@ -97,8 +97,9 @@ services:
       REDIS_URL: redis://redis:6379/0
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:?Define DJANGO_SECRET_KEY en .env}
       # "backend" lo usa el frontend al reenviar /api dentro de Docker
-      ALLOWED_HOSTS: ${DOMAIN:?Define DOMAIN en .env},localhost,127.0.0.1,backend
-      CSRF_TRUSTED_ORIGINS: https://${DOMAIN}
+      ALLOWED_HOSTS: ${DOMAIN:?Define DOMAIN en .env},www.${DOMAIN},localhost,127.0.0.1,backend
+      # Necesario para iniciar sesión en el panel de administración por HTTPS
+      CSRF_TRUSTED_ORIGINS: https://${DOMAIN},https://www.${DOMAIN}
       DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
       DATABASE_SSL: "False" # red interna de Docker, no sale a internet
       ADMIN_URL: ${ADMIN_URL:-admin/}

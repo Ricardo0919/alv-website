@@ -145,7 +145,7 @@ Luego configura Nginx con [`deploy/nginx/migajero.conf`](deploy/nginx/migajero.c
 
 - **Actualizar:** `git pull && docker compose up -d --build`
 - **Logs:** `docker compose logs -f backend`
-- **Panel admin** (no se publica): `ssh -L 8030:127.0.0.1:8030 usuario@vps` → `http://localhost:8030/<ADMIN_URL>`
+- **Panel admin:** `https://tu-dominio/<ADMIN_URL>` (ruta secreta del `.env`, con límite de intentos en Nginx)
 - **Crear admin:** `docker compose exec backend python manage.py createsuperuser`
 - **Restaurar respaldo:** `docker compose exec db-backup ls /backups/daily`
 
@@ -156,7 +156,7 @@ Luego configura Nginx con [`deploy/nginx/migajero.conf`](deploy/nginx/migajero.c
 - Sesiones (tokens) que caducan a los 30 días; cerrar sesión las revoca.
 - Cabeceras de seguridad: CSP, `X-Frame-Options`, `nosniff`, `Referrer-Policy`, HSTS.
 - Cuerpos de petición limitados (256 KB), consultas a la base con tiempo máximo (10 s), timeouts en gunicorn y Nginx.
-- Contenedores sin root, PostgreSQL sin puerto público, panel admin en ruta secreta y solo por túnel SSH.
+- Contenedores sin root, PostgreSQL sin puerto público, panel admin en ruta secreta con límite de intentos.
 - Dependencias sin vulnerabilidades conocidas: `pip-audit -r backend/requirements.txt` y `npm audit --omit=dev`.
 
 ## ☁️ Despliegue
