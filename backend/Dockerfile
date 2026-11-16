@@ -3,7 +3,13 @@
 # ---------------------------------------------------------------------------
 FROM python:3.12-slim
 
-ENV PYTHONDONTWRITEBYTECODE=1 \
+# UTF-8 siempre: sin esto, escribir acentos o ñ en la terminal del contenedor
+# (p. ej. en createsuperuser) falla con "surrogates not allowed"
+ENV LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8 \
+    PYTHONUTF8=1 \
+    PYTHONIOENCODING=utf-8 \
+    PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
     PIP_DISABLE_PIP_VERSION_CHECK=1
