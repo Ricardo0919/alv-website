@@ -1,0 +1,13 @@
+# Nada de entornos locales, bases de datos ni secretos dentro de la imagen
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+db.sqlite3
+staticfiles/
+*.log
+Procfile
+build.sh

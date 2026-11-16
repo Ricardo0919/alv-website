@@ -1,0 +1,5 @@
+# Scripts y configs de servidor siempre con saltos de línea de Linux
+*.sh text eol=lf
+*.conf text eol=lf
+Dockerfile text eol=lf
+*.yml text eol=lf

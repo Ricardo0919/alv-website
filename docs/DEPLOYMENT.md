@@ -88,7 +88,7 @@ python backend/manage.py migrate
 python backend/manage.py collectstatic --noinput
 
 # Start with PM2
-pm2 start "venv/bin/gunicorn --bind 0.0.0.0:8000 backend.wsgi:application" --name "django-backend"
+pm2 start "venv/bin/gunicorn --bind 0.0.0.0:8000 --chdir backend config.wsgi:application" --name "django-backend"
 ```
 
 ### Frontend Setup
